@@ -1,0 +1,38 @@
+{
+  "name": "@scarlet-mesh/mcp-weather",
+  "version": "1.0.0",
+  "description": "Weather MCP Server providing weather alerts, forecasts, and conditions data",
+  "main": "build/index.js",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "mcp-weather": "./build/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && chmod 755 build/index.js",
+    "dev": "node src/index.ts"
+  },
+  "files": [
+    "build"
+  ],
+  "keywords": [
+    "mcp",
+    "server", 
+    "weather",
+    "alerts",
+    "forecast"
+  ],
+  "author": "Red Hat",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.15.0",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "typescript": "^5.8.3"
+  }
+}

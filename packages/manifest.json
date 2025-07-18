@@ -1,0 +1,3 @@
+{
+  "weather": "./../../packages/weather/build/index.js"
+}
