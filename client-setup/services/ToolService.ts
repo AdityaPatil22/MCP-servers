@@ -1,3 +1,8 @@
+/**
+ * ToolService class for managing tool calls and arguments.
+ * This service provides methods to parse tool calls from Ollama responses
+ * and normalize tool arguments.
+ */
 import { ToolCall, OllamaResponse } from "../types/interfaces.js";
 
 export class ToolService {

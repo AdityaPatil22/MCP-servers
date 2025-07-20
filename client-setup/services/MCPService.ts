@@ -1,3 +1,8 @@
+/**
+ * MCPService class for managing Model Context Protocol (MCP) clients and tools.
+ * This service allows connecting to MCP servers, retrieving tools, and calling those tools.
+ * It handles multiple clients and ensures tools from different servers are not overwritten.
+ */
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { Tool, ToolResult } from "../types/interfaces.js";
@@ -16,6 +21,11 @@ export class MCPService {
     return this._tools;
   }
 
+  /**
+   * Connects to a MCP server using the provided script path.
+   * The script can be a JavaScript or Python file.
+   * It initializes the client and retrieves the tools available on the server.
+   */
   async connectToServer(serverScriptPath: string): Promise<void> {
     const isJs = serverScriptPath.endsWith(".js");
     const isPy = serverScriptPath.endsWith(".py");
@@ -43,13 +53,15 @@ export class MCPService {
     await client.connect(transport);
 
     const toolsResult = await client.listTools();
-    const serverTools: ToolWithClient[] = toolsResult.tools.map((tool: any) => ({
-      name: tool.name,
-      description: tool.description,
-      inputSchema: tool.inputSchema,
-      input_schema: tool.inputSchema,
-      client,
-    }));
+    const serverTools: ToolWithClient[] = toolsResult.tools.map(
+      (tool: any) => ({
+        name: tool.name,
+        description: tool.description,
+        inputSchema: tool.inputSchema,
+        input_schema: tool.inputSchema,
+        client,
+      })
+    );
 
     this.clients.push(client);
     this.transports.push(transport);
@@ -58,8 +70,13 @@ export class MCPService {
     this._tools = [...this._tools, ...serverTools];
   }
 
+  /**
+   * Calls a tool by its name with the provided arguments.
+   * It finds the tool in the list of tools and invokes it using the associated client.
+   * Returns the result of the tool call or an error message if the tool is not found.
+   */
   async callTool(name: string, args: Record<string, any>): Promise<ToolResult> {
-    const tool = this._tools.find(t => t.name === name);
+    const tool = this._tools.find((t) => t.name === name);
     if (!tool) {
       return {
         content: `Tool '${name}' not found.`,

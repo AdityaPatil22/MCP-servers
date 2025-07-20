@@ -21,16 +21,30 @@ class MCPClient {
     this.toolSelector = new ToolSelectorService();
   }
 
+  /**
+   * Initializes the MCP client by connecting to the server and loading tools.
+   * @param serverScriptPath - The path to the server script to connect to.
+   */
   async initialize(serverScriptPath: string): Promise<void> {
     await this.mcpService.connectToServer(serverScriptPath);
     console.log("Connected to server with tools:", this.mcpService.tools.map(({ name }) => name));
   }
 
+  /**
+   * Selects tools based on the user's query.
+   * @param query - The user's query to determine which tools to suggest.
+   * @returns A list of tool names that are suggested for the query.
+   */
   private async selectTools(query: string): Promise<string[]> {
     const availableToolNames = this.mcpService.tools.map(t => t.name);
     return (await this.toolSelector.selectTool(query, availableToolNames)) || [];
   }
 
+  /**
+   * Calls a tool and analyzes its result.
+   * @param toolCall - The tool call object containing the tool name and arguments.
+   * @returns A formatted string with the analysis of the tool's result.
+   */
   private async callAndAnalyzeTool(toolCall: ToolCall): Promise<string> {
     const toolName = toolCall.name;
     const toolArgs = this.toolService.normalizeToolArguments(toolCall.arguments);
@@ -49,11 +63,21 @@ class MCPClient {
     }
   }
 
+  /**
+   * Handles multiple tool calls by calling each tool and analyzing the results.
+   * @param toolCalls - An array of ToolCall objects to be processed.
+   * @returns A concatenated string of all tool analysis results.
+   */
   private async handleToolCalls(toolCalls: ToolCall[]): Promise<string> {
     const results = await Promise.all(toolCalls.map(tc => this.callAndAnalyzeTool(tc)));
     return results.join("");
   }
 
+  /**
+   * Processes a user's query by selecting tools, calling the LLM, and handling tool calls.
+   * @param query - The user's query to process.
+   * @returns A string response containing the LLM's response and any tool results.
+   */
   async processQuery(query: string): Promise<string> {
     try {
       const selectedToolNames = await this.selectTools(query);
@@ -76,6 +100,10 @@ class MCPClient {
     }
   }
 
+  /**
+   * Starts the chat loop, allowing users to input queries and receive responses.
+   * It handles user input, processes queries, and displays results.
+   */
   async chatLoop(): Promise<void> {
     const rl = readline.createInterface({
       input: process.stdin,
@@ -105,6 +133,7 @@ class MCPClient {
     }
   }
 }
+
 
 async function main(): Promise<void> {
   const buildPaths = Object.values(manifest) as string[];

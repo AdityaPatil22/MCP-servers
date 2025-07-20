@@ -1,14 +1,14 @@
 {
-  "name": "mcp-weather",
+  "name": "mcp-ui-components",
   "version": "1.0.0",
-  "description": "Weather MCP Server providing weather alerts, forecasts, and conditions data",
+  "description": "UI Components for MCP Server providing reusable components for weather alerts, forecasts, and conditions",
   "main": "build/index.js",
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "bin": {
-    "mcp-weather": "./build/index.js"
+    "mcp-ui-components": "./build/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,17 +18,9 @@
   "files": [
     "build"
   ],
-  "keywords": [
-    "mcp",
-    "server", 
-    "weather",
-    "alerts",
-    "forecast"
-  ],
-  "author": "Red Hat",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.15.0",
+    "@modelcontextprotocol/sdk": "^1.16.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
