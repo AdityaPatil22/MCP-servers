@@ -1,0 +1,35 @@
+:root {
+  font-family: 'Red Hat Text';
+}
+
+.pf-v6-c-banner {
+  font-size: 16px;
+  background-color: #323232d9;
+  color: #ececec;
+}
+
+a {
+  color: #06c;
+  text-decoration: underline;
+}
+
+.pf-v6-c-form-control > :is(input, select, textarea) {
+  outline-offset: 0px;
+}
+
+.pf-v6-c-form-control {
+  --pf-v6-c-form-control--BorderRadius: 999px;
+
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide scrollbar but keep scrolling functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
